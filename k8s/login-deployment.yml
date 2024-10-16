@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Unique key of the Deployment instance
+  name: login
+spec:
+  # 1 Pod should exist at all times.
+  replicas: 2
+  selector:
+    matchLabels:
+      app: login
+  template:
+    metadata:
+      labels:
+        # Apply this label to pods and default
+        # the Deployment label selector to this value
+        app: login
+    spec:
+      containers:
+      - name: login
+        # Run this image
+        image: ravi2krishna/login-2428
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # Unique key of the Deployment instance
+  name: login
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: login
