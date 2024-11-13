@@ -156,3 +156,39 @@ resource "aws_vpc_security_group_egress_rule" "login-fe-Outbound" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
+
+# Secuirty Group Backend
+resource "aws_security_group" "login-be-sg" {
+  name        = "login-be-sg"
+  description = "Allow Backend Traffic"
+  vpc_id      = aws_vpc.login-vpc.id
+
+  tags = {
+    Name = "login-be-sg"
+  }
+}
+
+# SSH Rule
+resource "aws_vpc_security_group_ingress_rule" "login-be-ssh" {
+  security_group_id = aws_security_group.login-be-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+# HTTP Rule
+resource "aws_vpc_security_group_ingress_rule" "login-be-http" {
+  security_group_id = aws_security_group.login-be-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 8080
+  ip_protocol       = "tcp"
+  to_port           = 8080
+}
+
+# Egress / Outbound
+resource "aws_vpc_security_group_egress_rule" "login-be-Outbound" {
+  security_group_id = aws_security_group.login-be-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
