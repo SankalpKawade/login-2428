@@ -66,3 +66,16 @@ resource "aws_route_table" "login-public-rt" {
     Name = "login-public-routes"
   }
 }
+
+# Public Association Frontend
+resource "aws_route_table_association" "login-public-asc" {
+  subnet_id      = aws_subnet.login-fe-subnet.id
+  route_table_id = aws_route_table.login-public-rt.id
+}
+
+# Public Association Backend
+resource "aws_route_table_association" "login-public-asc-2" {
+  subnet_id      = aws_subnet.login-be-subnet.id
+  route_table_id = aws_route_table.login-public-rt.id
+}
+
