@@ -34,3 +34,56 @@ variable "public_subnet_cidrs" {
     backend = "10.0.1.0/24" 
   }
 }
+
+# Variable Private Subnets
+variable "private_subnet_cidr" {
+  type = string
+  default = "10.0.2.0/24"
+}
+
+# Variable FE Ports
+variable "web_ingress_ports" {
+  description = "Ports Allowed"
+  type        = list(object({
+    port  = number
+    cidr  = string
+  }))
+  default = [
+    { port = 22, cidr = "0.0.0.0/0"},
+    { port = 80, cidr = "0.0.0.0/0"}
+  ]
+}  
+
+# Variable BE Ports
+variable "app_ingress_ports" {
+  description = "Ports Allowed"
+  type        = list(object({
+    port  = number
+    cidr  = string
+  }))
+  default = [
+    { port = 22, cidr = "0.0.0.0/0"},
+    { port = 8080, cidr = "0.0.0.0/0"}
+  ]
+}  
+
+# Variable BE Ports
+variable "db_ingress_ports" {
+  description = "Ports Allowed"
+  type        = list(object({
+    port  = number
+    cidr  = string
+  }))
+  default = [
+    { port = 22, cidr = "0.0.0.0/0"},
+    { port = 5432, cidr = "0.0.0.0/0"}
+  ]
+}
+
+# Variable Common Outbound
+variable "common_egress_rule" {
+  default = {
+    cidr_ipv4 = "0.0.0.0/0"
+    ip_protocol       = "-1" # semantically equivalent to all ports
+  }
+}
