@@ -79,11 +79,3 @@ variable "db_ingress_ports" {
     { port = 5432, cidr = "0.0.0.0/0"}
   ]
 }
-
-# Variable Common Outbound
-variable "common_egress_rule" {
-  default = {
-    cidr_ipv4 = "0.0.0.0/0"
-    ip_protocol       = "-1" # semantically equivalent to all ports
-  }
-}
